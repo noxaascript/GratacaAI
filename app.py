@@ -5,15 +5,14 @@ import requests
 API_KEY = "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"
 URL = "https://openrouter.ai/api/v1/chat/completions"
 
-st.set_page_config(page_title="GratacaAI Ecosystem", page_icon="🌐", layout="centered")
+st.set_page_config(page_title="GratacaAI Ecosystem", page_icon="🌐")
 
-# --- UI STYLE ---
+# --- UI STYLE (FIXED) ---
 st.markdown("""
     <style>
     .stApp { background-color: #0e1117; color: white; }
-    .stButton>button { width: 100%; border-radius: 20px; background: linear-gradient(45deg, #00f2fe, #4facfe); color: white; border: none; }
     </style>
-    """, unsafe_allow_stdio=True)
+    """, unsafe_allow_html=True)
 
 st.title("🌐 GratacaAI Supreme Ecosystem")
 st.caption("Owner: KAREEMXD | Handphone Only Edition")
@@ -28,8 +27,7 @@ with st.sidebar:
          "GratacaUltraZoom 4.0WPPIDXM"]
     )
     st.divider()
-    st.success(f"{model_choice} Aktif!")
-    if st.button("Clear Memory"):
+    if st.button("Reset Percakapan"):
         st.session_state.messages = []
 
 # --- LOGIC ---
@@ -47,11 +45,11 @@ if prompt := st.chat_input("Apa yang bisa saya bantu, Yang Mulia?"):
 
     # Personality Logic
     if "Flash" in model_choice:
-        sys_p = "Anda GratacaUltraFlash 3.0WPPIDXM. Sangat cepat, ramah, dan membantu KAREEMXD dalam segala hal umum."
+        sys_p = "Anda GratacaUltraFlash 3.0WPPIDXM. Cepat, ramah, dan friendly kepada KAREEMXD."
     elif "Coding" in model_choice:
-        sys_p = "Anda GratacaUltraCoding 5.0WPPIDXM. Jenius coding, Python, Termux, dan hardware Android. Jawab secara teknis tapi tetap friendly kepada KAREEMXD."
+        sys_p = "Anda GratacaUltraCoding 5.0WPPIDXM. Ahli coding dan teknologi, ramah kepada KAREEMXD."
     else:
-        sys_p = "Anda GratacaUltraZoom 4.0WPPIDXM. Fokus pada analisis mendalam, strategi game (FC Mobile/FF), dan Spaceflight Simulator. Sangat detail dan loyal pada KAREEMXD."
+        sys_p = "Anda GratacaUltraZoom 4.0WPPIDXM. Detail dalam analisis strategi game dan SFS, ramah kepada KAREEMXD."
 
     payload = {
         "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
@@ -62,13 +60,9 @@ if prompt := st.chat_input("Apa yang bisa saya bantu, Yang Mulia?"):
     with st.chat_message("assistant"):
         try:
             res = requests.post(URL, headers=headers, json=payload, timeout=30)
-            res_json = res.json()
-            if 'choices' in res_json:
-                response = res_json['choices'][0]['message']['content']
-                st.markdown(response)
-                st.session_state.messages.append({"role": "assistant", "content": response})
-            else:
-                st.error("API Limit atau Eror! Coba lagi sebentar, Yang Mulia. 🖕")
+            response = res.json()['choices'][0]['message']['content']
+            st.markdown(response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
         except:
-            st.error("Koneksi Putus! Pastikan Sinyal Pekanbaru Stabil. 🖕")
+            st.error("Koneksi Putus! Coba lagi, Yang Mulia. 🖕")
             
